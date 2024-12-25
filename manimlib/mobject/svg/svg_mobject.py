@@ -182,6 +182,7 @@ class SVGMobject(VMobject):
                 result[svg_key] = str(svg_default_dict[style_key])
         return result
 
+# From text(latex) we get svg. then from svg we get mobject
     def mobjects_from_svg(self, svg: se.SVG) -> list[VMobject]:
         result = []
         for shape in svg.elements():

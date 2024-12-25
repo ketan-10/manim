@@ -136,8 +136,10 @@ class DrawBorderThenFill(Animation):
             self.sm_to_index[hash(submob)] = 1
 
         if index == 0:
+            # animate the border first
             submob.pointwise_become_partial(outline, 0, subalpha)
         else:
+            # then animate the fill
             submob.interpolate(outline, start, subalpha)
 
 

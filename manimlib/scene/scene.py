@@ -247,6 +247,8 @@ class Scene(object):
             self.window._window.dispatch_events()
             return
 
+        # calls render on each Mobject in the scene
+        # and swap buffer to display the rendered frame
         self.camera.capture(*self.render_groups)
 
         if self.window and not self.skip_animations:
@@ -554,8 +556,23 @@ class Scene(object):
             for animation in animations:
                 animation.update_mobjects(dt)
                 alpha = t / animation.run_time
+                
+                # perform interpolation which eventually calls interpolate_submobject for every animation.
+                # This will change the 'points' of MObject and set it in set_points
+                # we also store the starting points so on every animation frame we can revert back to original points
+                
+                # each object render data is stored as ('point' 'stroke_rgba' 'stroke_width' 'joint_angle' 'fill_rgba' 'base_normal' 'fill_border_width')
+                # for example in DrawBorderThenFill Circle, it's interpolate_submobject will set_points ie (Mboject.data['points'] = new_points) (these points are partial_quadratic_bezier_points).
+                    # for drawing half circle we do some math (in `pointwise_become_partial`) to get new points according to alpha value (time passed / total time)
+                    # then we call inerpolate on Mobject which will update self.data['fill_rgba'] according to alpha
                 animation.interpolate(alpha)
+
+            # update frame calls camera.capture which will call render on each Mobject, and swap the buffer to display the rendered frame
+            # `Mobject.render()` calls `shader_wrapper.read_in(self.data)` which will store the data in GPU memory. 
+            # by writing it in VBO(vertex buffer object) and also generate Vertex Array Object (VAO) (if not exists already)
+            # then we call `shader_wrapper.render()` in MObject.render which will call render on every VAO.
             self.update_frame(dt)
+
             self.emit_frame()
 
     def finish_animations(self, animations: Iterable[Animation]) -> None:

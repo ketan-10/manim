@@ -8,6 +8,28 @@ import numpy as np
 # Use -o to write it to a file and open it once done
 # Use -n <number> to skip ahead to the n'th animation of a scene.
 
+class MyTest(Scene):
+    def construct(self):
+        # c = Circle(2, color = RED, fill_opacity=0.1)
+        # self.add(c)
+        c = Circle(2, color = RED, fill_opacity=0.1)
+        self.play(DrawBorderThenFill(c), run_time=3)
+
+        points = [
+            [ 0.72744256, -0.76683056,  0.        ],
+            [ 0.7927902 , -0.73692375,  0.        ],
+            [ 0.8801199 , -0.47692296,  0.        ]
+        ]
+        colors = [RED, GREEN, BLUE]
+
+        # Create dots for each point
+        dots = [Dot(point=p, fill_color=c) for (p,c) in zip(points, colors)]
+        Text("Hello World").to_edge(UP)
+
+        # Add dots to the scene
+        self.add(*dots)
+        # self.add(c)
+        # return super().construct()
 
 class OpeningManimExample(Scene):
     def construct(self):

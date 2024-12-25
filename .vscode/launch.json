@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Debug manimgl with debugpy",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/Users/ketan/manim/.venv/bin/manimgl",
+            // "program": "manimgl",
+            "args": ["example_scenes.py", "MyTest"],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
+

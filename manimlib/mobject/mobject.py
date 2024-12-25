@@ -1801,6 +1801,8 @@ class Mobject(object):
         alpha: float,
         path_func: Callable[[np.ndarray, np.ndarray, float], np.ndarray] = straight_path
     ) -> Self:
+
+# 'point' 'stroke_rgba' 'stroke_width' 'joint_angle' 'fill_rgba' 'base_normal' 'fill_border_width'
         keys = [k for k in self.data.dtype.names if k not in self.locked_data_keys]
         if keys:
             self.note_changed_data()

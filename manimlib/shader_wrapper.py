@@ -173,6 +173,9 @@ class ShaderWrapper(object):
         else:
             self.vbo.write(self.vert_data)
 
+# for each program, create a vertex array object
+# then on render we call read_in and push data directly to vertex buffer object
+# then we render the vertex array object
     def generate_vaos(self):
         # Vertex array object
         self.vaos = [
